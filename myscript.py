@@ -9,8 +9,10 @@ def get_page(page):
     q_id = page.title()
     print(q_id)
     data = page.get()
-    print(data)
-    
+    try:
+        print(data)
+    except:
+        print('An exception occured')
 
 #Add Hello to the end of the page
 def add_hello(page):
@@ -19,10 +21,8 @@ def add_hello(page):
     page.data = data
     try:
         page.save("Saving the updated page")
-        return 1
     except:
         print("Updated Page not saved")
-        return 0
 
 #Add new property to the sandbox item('P31' = 'Q4115189')
 def edit_wikidata(page, pid, val):
@@ -34,12 +34,17 @@ def edit_wikidata(page, pid, val):
     target_claim = pywikibot.ItemPage(repo, val)
     new_claim = pywikibot.Claim(repo, pid)
     new_claim.setTarget(target_claim)
-    print(new_claim)
+    try:
+        print(new_claim)
+    except:
+        print('Error Occured')
     #save the claim
     text = input('Save Edit?')
     if text == 'y':
         page.addClaim(new_claim, summary=u'Add claim')
-    return 0
+        print('claim saved')
+    else:
+        print('claim not saved')
     
 #pages to be loaded
 outreachy1_page = pywikibot.Page(repo, 'User:Sharon Kerubo/Outreachy 1')
